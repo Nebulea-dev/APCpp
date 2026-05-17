@@ -101,3 +101,11 @@ if (WIN32)
 endif(WIN32)
 
 install(TARGETS APCpp PUBLIC_HEADER)
+
+# Copy the DLL to the game's mod directory after building
+add_custom_command(TARGET APCpp POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${GAME_MOD_DLL_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:APCpp>
+        "${GAME_MOD_DLL_DIR}$<TARGET_FILE_NAME:APCpp>"
+)
